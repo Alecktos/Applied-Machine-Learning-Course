@@ -14,11 +14,10 @@
 
 import weka.classifiers.bayes.NaiveBayesMultinomial;
 import weka.core.Instances;
-import weka.filters.Filter;
 
 import weka.classifiers.Evaluation;
 import java.util.Random;
-import weka.classifiers.bayes.NaiveBayes;
+
 import weka.classifiers.meta.FilteredClassifier;
 import weka.core.converters.ArffLoader.ArffReader;
 import weka.filters.unsupervised.attribute.StringToWordVector;
@@ -30,7 +29,7 @@ import java.io.*;
  * It loads a text dataset written in ARFF format, evaluates a classifier on it,
  * and saves the learnt model for further use.
  * @author Jose Maria Gomez Hidalgo - http://www.esp.uem.es/jmgomez
- * @see Main
+ * @see WA2OldVersion
  */
 public class MainTest {
 
@@ -128,7 +127,7 @@ public class MainTest {
 	}
 
 	/**
-	 * Main method. It is an example of the usage of this class.
+	 * WA2OldVersion method. It is an example of the usage of this class.
 	 * @param args Command-line arguments: fileData and fileModel.
 	 */
 	public static void main (String[] args) {

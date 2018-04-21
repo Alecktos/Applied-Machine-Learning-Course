@@ -14,7 +14,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Random;
 
-public class Main {
+public class WA2OldVersion {
 
 	public static void main(String[] args) {
 		try {
