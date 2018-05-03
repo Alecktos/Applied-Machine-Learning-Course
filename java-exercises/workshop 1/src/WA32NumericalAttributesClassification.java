@@ -35,32 +35,24 @@ import java.io.*;
  */
 public class WA32NumericalAttributesClassification {
 
-	/**
-	 * Object that stores training data.
-	 */
-	Instances trainData;
-	/**
-	 * Object that stores the filter
-	 */
-	StringToWordVector filter;
-
 
 	/**
 	 * This method loads a dataset in ARFF format. If the file does not exist, or
 	 * it has a wrong format, the attribute trainData is null.
 	 * @param fileName The name of the file that stores the dataset.
 	 */
-	public void loadDataset(String fileName) {
+	public Instances loadDataset(String fileName) {
+		Instances trainData = null;
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(fileName));
 			ArffReader arff = new ArffReader(reader);
 			trainData = arff.getData();
 			System.out.println("===== Loaded dataset: " + fileName + " =====");
 			reader.close();
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			System.out.println("Problem found when reading: " + fileName);
 		}
+		return trainData;
 	}
 
 	/**
@@ -68,15 +60,10 @@ public class WA32NumericalAttributesClassification {
 	 * the classifier is defined but not trained yet. Evaluation of previously
 	 * trained classifiers can lead to unexpected results.
 	 */
-	public void evaluate() {
+	public void evaluate(Instances trainData, Classifier classifier) {
 		try {
-			FilteredClassifier classifier;
 			trainData.setClassIndex(1);
-			filter = new StringToWordVector();
-			//filter.setAttributeIndices("first");
-			classifier = new FilteredClassifier();
-			classifier.setFilter(filter);
-			classifier.setClassifier(new NaiveBayesMultinomial());
+
 			Evaluation eval = new Evaluation(trainData);
 			eval.crossValidateModel(classifier, trainData, 10, new Random(1));
 			System.out.println(eval.toSummaryString());
@@ -95,10 +82,14 @@ public class WA32NumericalAttributesClassification {
 	public static void main (String[] args) {
 		//Classify the Iris dataset in Weka using the algorithm k-Nearest Neighbor (lazy/IBk), Decision Trees (trees/J48) and Naïve Bayes (bayes/NaiveBayes)
 
-		WA2TextClassification learner;
+		WA32NumericalAttributesClassification learner = new WA32NumericalAttributesClassification();
+		Instances trainData = learner.loadDataset("../Wikipedia_70/wikipedia_70.arff");
 
-		learner = new WA2TextClassification();
-		learner.loadDataset("../Wikipedia_70/wikipedia_70.arff");
-		learner.evaluate();
+		StringToWordVector filter = new StringToWordVector();
+		FilteredClassifier classifier = new FilteredClassifier();
+		classifier.setFilter(filter);
+		classifier.setClassifier(new NaiveBayesMultinomial());
+
+		learner.evaluate(trainData, classifier);
 	}
 }
