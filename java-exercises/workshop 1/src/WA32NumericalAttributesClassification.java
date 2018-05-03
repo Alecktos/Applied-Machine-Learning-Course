@@ -16,6 +16,8 @@ import weka.classifiers.AbstractClassifier;
 import weka.classifiers.Classifier;
 import weka.classifiers.bayes.NaiveBayes;
 import weka.classifiers.bayes.NaiveBayesMultinomial;
+import weka.classifiers.lazy.IBk;
+import weka.classifiers.trees.J48;
 import weka.core.Instances;
 
 import weka.classifiers.Evaluation;
@@ -87,12 +89,15 @@ public class WA32NumericalAttributesClassification {
 		WA32NumericalAttributesClassification learner = new WA32NumericalAttributesClassification();
 		Instances trainData = learner.loadDataset("/home/alexander/Projects/Applied-Machine-Learning-Course/Iris/iris.arff");
 
-		NaiveBayes naiveBayes = new NaiveBayes();
-		//StringToWordVector filter = new StringToWordVector();
-		//FilteredClassifier classifier = new FilteredClassifier();
-		//classifier.setFilter(filter);
-		//classifier.setClassifier(new NaiveBayesMultinomial());
+		//Naive Bayes
+		//NaiveBayes naiveBayes = new NaiveBayes();
+		//learner.evaluate(trainData, naiveBayes);
 
-		learner.evaluate(trainData, naiveBayes);
+		//Decision tree
+		//J48 j48 = new J48();
+		//learner.evaluate(trainData, j48);
+
+		//IBk iBk = new IBk();
+		///learner.evaluate(trainData, iBk);
 	}
 }
