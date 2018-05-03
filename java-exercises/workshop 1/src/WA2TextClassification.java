@@ -29,9 +29,9 @@ import java.io.*;
  * It loads a text dataset written in ARFF format, evaluates a classifier on it,
  * and saves the learnt model for further use.
  * @author Jose Maria Gomez Hidalgo - http://www.esp.uem.es/jmgomez
- * @see WA2OldVersion
+ * @see WA2TextClassification
  */
-public class MainTest {
+public class WA2TextClassification {
 
 	/**
 	 * Object that stores training data.
@@ -132,11 +132,11 @@ public class MainTest {
 	 */
 	public static void main (String[] args) {
 
-		MainTest learner;
+		WA2TextClassification learner;
 		//if (args.length < 2)
 			//System.out.println("Usage: java MyLearner <fileData> <fileModel>");
 		//else {
-			learner = new MainTest();
+			learner = new WA2TextClassification();
 			learner.loadDataset("../Wikipedia_70/wikipedia_70.arff");
 			//learner.loadDataset("/home/alexander/Projects/tmweka/FilteredClassifier/smsspam.small.arff");
 			// Evaluation mus be done before training
