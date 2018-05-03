@@ -14,6 +14,7 @@
 
 import weka.classifiers.AbstractClassifier;
 import weka.classifiers.Classifier;
+import weka.classifiers.bayes.NaiveBayes;
 import weka.classifiers.bayes.NaiveBayesMultinomial;
 import weka.core.Instances;
 
@@ -62,12 +63,13 @@ public class WA32NumericalAttributesClassification {
 	 */
 	public void evaluate(Instances trainData, Classifier classifier) {
 		try {
-			trainData.setClassIndex(1);
+			trainData.setClassIndex(4);
 
 			Evaluation eval = new Evaluation(trainData);
 			eval.crossValidateModel(classifier, trainData, 10, new Random(1));
 			System.out.println(eval.toSummaryString());
 			System.out.println(eval.toClassDetailsString());
+			System.out.println(eval.toMatrixString());
 			System.out.println("===== Evaluating on filtered (training) dataset done =====");
 		}
 		catch (Exception e) {
@@ -83,13 +85,14 @@ public class WA32NumericalAttributesClassification {
 		//Classify the Iris dataset in Weka using the algorithm k-Nearest Neighbor (lazy/IBk), Decision Trees (trees/J48) and Naïve Bayes (bayes/NaiveBayes)
 
 		WA32NumericalAttributesClassification learner = new WA32NumericalAttributesClassification();
-		Instances trainData = learner.loadDataset("../Wikipedia_70/wikipedia_70.arff");
+		Instances trainData = learner.loadDataset("/home/alexander/Projects/Applied-Machine-Learning-Course/Iris/iris.arff");
 
-		StringToWordVector filter = new StringToWordVector();
-		FilteredClassifier classifier = new FilteredClassifier();
-		classifier.setFilter(filter);
-		classifier.setClassifier(new NaiveBayesMultinomial());
+		NaiveBayes naiveBayes = new NaiveBayes();
+		//StringToWordVector filter = new StringToWordVector();
+		//FilteredClassifier classifier = new FilteredClassifier();
+		//classifier.setFilter(filter);
+		//classifier.setClassifier(new NaiveBayesMultinomial());
 
-		learner.evaluate(trainData, classifier);
+		learner.evaluate(trainData, naiveBayes);
 	}
 }
