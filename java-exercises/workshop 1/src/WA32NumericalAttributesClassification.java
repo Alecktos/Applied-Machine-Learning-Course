@@ -12,7 +12,12 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
+import weka.classifiers.AbstractClassifier;
+import weka.classifiers.Classifier;
+import weka.classifiers.bayes.NaiveBayes;
 import weka.classifiers.bayes.NaiveBayesMultinomial;
+import weka.classifiers.lazy.IBk;
+import weka.classifiers.trees.J48;
 import weka.core.Instances;
 
 import weka.classifiers.Evaluation;
@@ -31,37 +36,26 @@ import java.io.*;
  * @author Jose Maria Gomez Hidalgo - http://www.esp.uem.es/jmgomez
  * @see WA2TextClassification
  */
-public class WA2TextClassification {
+public class WA32NumericalAttributesClassification {
 
-	/**
-	 * Object that stores training data.
-	 */
-	Instances trainData;
-	/**
-	 * Object that stores the filter
-	 */
-	StringToWordVector filter;
-	/**
-	 * Object that stores the classifier
-	 */
-	FilteredClassifier classifier;
 
 	/**
 	 * This method loads a dataset in ARFF format. If the file does not exist, or
 	 * it has a wrong format, the attribute trainData is null.
 	 * @param fileName The name of the file that stores the dataset.
 	 */
-	public void loadDataset(String fileName) {
+	public Instances loadDataset(String fileName) {
+		Instances trainData = null;
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(fileName));
 			ArffReader arff = new ArffReader(reader);
 			trainData = arff.getData();
 			System.out.println("===== Loaded dataset: " + fileName + " =====");
 			reader.close();
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			System.out.println("Problem found when reading: " + fileName);
 		}
+		return trainData;
 	}
 
 	/**
@@ -69,18 +63,15 @@ public class WA2TextClassification {
 	 * the classifier is defined but not trained yet. Evaluation of previously
 	 * trained classifiers can lead to unexpected results.
 	 */
-	public void evaluate() {
+	public void evaluate(Instances trainData, Classifier classifier) {
 		try {
-			trainData.setClassIndex(1);
-			filter = new StringToWordVector();
-			//filter.setAttributeIndices("first");
-			classifier = new FilteredClassifier();
-			classifier.setFilter(filter);
-			classifier.setClassifier(new NaiveBayesMultinomial());
+			trainData.setClassIndex(4);
+
 			Evaluation eval = new Evaluation(trainData);
 			eval.crossValidateModel(classifier, trainData, 10, new Random(1));
 			System.out.println(eval.toSummaryString());
 			System.out.println(eval.toClassDetailsString());
+			System.out.println(eval.toMatrixString());
 			System.out.println("===== Evaluating on filtered (training) dataset done =====");
 		}
 		catch (Exception e) {
@@ -89,61 +80,24 @@ public class WA2TextClassification {
 	}
 
 	/**
-	 * This method trains the classifier on the loaded dataset.
-	 */
-	public void learn() {
-		try {
-			trainData.setClassIndex(1);
-			filter = new StringToWordVector();
-			//filter.setAttributeIndices("last");
-			classifier = new FilteredClassifier();
-			classifier.setFilter(filter);
-			classifier.setClassifier(new NaiveBayesMultinomial());
-			classifier.buildClassifier(trainData);
-			// Uncomment to see the classifier
-			// System.out.println(classifier);
-			System.out.println("===== Training on filtered (training) dataset done =====");
-		}
-		catch (Exception e) {
-			System.out.println("Problem found when training: " + e.getMessage());
-		}
-	}
-
-	/**
-	 * This method saves the trained model into a file. This is done by
-	 * simple serialization of the classifier object.
-	 * @param fileName The name of the file that will store the trained model.
-	 */
-	public void saveModel(String fileName) {
-		try {
-			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName));
-			out.writeObject(classifier);
-			out.close();
-			System.out.println("===== Saved model: " + fileName + " =====");
-		}
-		catch (IOException e) {
-			System.out.println("Problem found when writing: " + fileName);
-		}
-	}
-
-	/**
 	 * WA2OldVersion method. It is an example of the usage of this class.
 	 * @param args Command-line arguments: fileData and fileModel.
 	 */
 	public static void main (String[] args) {
+		//Classify the Iris dataset in Weka using the algorithm k-Nearest Neighbor (lazy/IBk), Decision Trees (trees/J48) and Naïve Bayes (bayes/NaiveBayes)
 
-		WA2TextClassification learner;
-		//if (args.length < 2)
-			//System.out.println("Usage: java MyLearner <fileData> <fileModel>");
-		//else {
-			learner = new WA2TextClassification();
-			learner.loadDataset("../Wikipedia_70/wikipedia_70.arff");
-			//learner.loadDataset("/home/alexander/Projects/tmweka/FilteredClassifier/smsspam.small.arff");
-			// Evaluation mus be done before training
-			// More info in: http://weka.wikispaces.com/Use+WEKA+in+your+Java+code
-			learner.evaluate();
-			learner.learn();
-			//learner.saveModel("outputtest");
-		//}
+		WA32NumericalAttributesClassification learner = new WA32NumericalAttributesClassification();
+		Instances trainData = learner.loadDataset("/home/alexander/Projects/Applied-Machine-Learning-Course/Iris/iris.arff");
+
+		//Naive Bayes
+		//NaiveBayes naiveBayes = new NaiveBayes();
+		//learner.evaluate(trainData, naiveBayes);
+
+		//Decision tree
+		//J48 j48 = new J48();
+		//learner.evaluate(trainData, j48);
+
+		//IBk iBk = new IBk();
+		///learner.evaluate(trainData, iBk);
 	}
-}	
+}
