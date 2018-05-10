@@ -1,0 +1,9 @@
+<application>
+  <component name="FileTypeManager" version="17">
+    <extensionMap>
+      <mapping pattern="VatCest" type="PLAIN_TEXT" />
+      <mapping pattern="tid" type="PLAIN_TEXT" />
+      <mapping pattern="Jenkinsfile" type="PLAIN_TEXT" />
+    </extensionMap>
+  </component>
+</application>
