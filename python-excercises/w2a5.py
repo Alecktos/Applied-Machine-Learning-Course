@@ -36,9 +36,10 @@ def main():
     # Build 3 layer DNN with 10, 20, 10 units respectively.
     classifier = tf.estimator.DNNClassifier(feature_columns=feature_columns,
                                           hidden_units=[10, 20, 10],
-                                          n_classes=3,
-                                          model_dir="/tmp/iris_model")
+                                          n_classes=3)
     # Define the training inputs
+
+    # classifier = tf.estimator.LinearClassifier(feature_columns=feature_columns, n_classes=3")
     train_input_fn = tf.estimator.inputs.numpy_input_fn(
       x={"x": np.array(training_set.data)},
       y=np.array(training_set.target),
