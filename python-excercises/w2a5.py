@@ -34,12 +34,10 @@ def main():
     feature_columns = [tf.feature_column.numeric_column("x", shape=[4])]
 
     # Build 3 layer DNN with 10, 20, 10 units respectively.
-    classifier = tf.estimator.DNNClassifier(feature_columns=feature_columns,
-                                          hidden_units=[10, 20, 10],
-                                          n_classes=3)
+    # classifier = tf.estimator.DNNClassifier(feature_columns=feature_columns, hidden_units=[10, 20, 10], n_classes=3)
     # Define the training inputs
 
-    # classifier = tf.estimator.LinearClassifier(feature_columns=feature_columns, n_classes=3")
+    classifier = tf.estimator.LinearClassifier(feature_columns=feature_columns, n_classes=3)
     train_input_fn = tf.estimator.inputs.numpy_input_fn(
       x={"x": np.array(training_set.data)},
       y=np.array(training_set.target),
