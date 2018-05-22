@@ -19,7 +19,7 @@ def train_and_test_defined_part():
     data = iris.data
     target = iris.target
 
-    print np.unique(target)  # print all flower types
+    print(np.unique(target) ) # print all flower types
 
     knn = KNeighborsClassifier(n_neighbors=3)
     knn.fit(data[:-4], target[:-4])
@@ -27,7 +27,7 @@ def train_and_test_defined_part():
 
     for key in range(len(result)):
         if result[key] != target[-4:][key]:
-            print "index: " + str(key) + " fel: " + str(result[key]) + " skulle vara " + str(target[-4:][key])
+            print("index: " + str(key) + " fel: " + str(result[key]) + " skulle vara " + str(target[-4:][key]))
 
 
 def train_90_test_10():
@@ -50,7 +50,7 @@ def train_90_test_10():
 
     for key in range(len(test_data)):
         if result[key] != test_target[key]:
-            print "index: " + str(key) + " fel: " + str(result[key]) + " skulle vara " + str(test_target[key])
+            print("index: " + str(key) + " fel: " + str(result[key]) + " skulle vara " + str(test_target[key]))
 
 
 def run_10_fold_crossvalidation():
@@ -58,7 +58,7 @@ def run_10_fold_crossvalidation():
     knn = KNeighborsClassifier(n_neighbors=6, weights='uniform', algorithm='kd_tree')
     predicted = cross_val_predict(knn, iris.data, iris.target, cv=10)
     score = metrics.accuracy_score(iris.target, predicted)
-    print "score: " + str(score)
+    print("score: " + str(score))
 
 run_10_fold_crossvalidation()
 # train_and_test_defined_part()
